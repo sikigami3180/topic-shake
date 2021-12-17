@@ -3,7 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+  
+  <button onclick="permission_request();">動作と方向へのアクセス許可</button>
+  話題に困った時に振るやつ
+  <div id="num">
+    aaa
+  </div>
+  <div id="result_acc">
+    aaa
+  </div>
+  <br />
+  <div id="result_gyro">
+    bbb
+  </div>
   <script type="text/javascript">
+    var num = 10;
     function post_function( result_string ) {
         if ( result_string === "granted" ) {
           // ユーザが許可した場合、文字列"granted"が返る
@@ -51,18 +67,8 @@
             }, false );
         }
     }
+    var res = document.getElementById( "num" );
+    res.innerText = String(num);
   </script>
-</head>
-<body>
-  
-  <button onclick="permission_request();">動作と方向へのアクセス許可</button>
-  話題に困った時に振るやつ
-  <div id="result_acc">
-    aaa
-  </div>
-  <br />
-  <div id="result_gyro">
-    bbb
-  </div>
 </body>
 </html>
