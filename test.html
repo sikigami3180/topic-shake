@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<meta name="author" content="KOSHINUKE1040" />
+<link rel="stylesheet" href="_object/default.css" type="text/css" />
+<link rel="icon" href="_object/favicon.png" type="image/png" />
+<title>デバイス加速度センサーの動作確認</title>
+<style type="text/css">
+input {border:none;}
+.sample1 {width:320px; margin:1em auto;}
+.sample1 dt, .sample1 dd { font-size:.7em; line-height:1.1; margin:0; padding:0;}
+.sample1 dt { font-weight:700; }
+.sample1 dd { margin-left:16px; }
+</style>
+</head>
+<body>
+
+<h1>デバイス加速度センサーの動作確認</h1>
+<p>この文書は加速度センサー(傾き、ジャイロ)に対応したウェブブラウザの動作を確認するためのJavaScriptアプリケーションです。センサーに対応したウェブブラウザで、デバイスの状態に応じた数値とSVGによる棒グラフを表示します。HTML5文書への応用を想定した個人的な実験目的で作成しており、ウェブブラウザの品質を証明するものではありません。</p>
+<p>W3Cで草案段階の「<a href="http://dev.w3.org/geo/api/spec-source-orientation.html">DeviceOrientation Event Specification</a>」を参考に作成し、iOS6.1を搭載したiPod touch第4世代での動作を確認しています。</p>
+
+<form name="sample1" class="sample1">
+<dl>
+<dt>acceleration.x</dt>
+<dd><input type="text" value="-" name="x" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-x" /></svg></dd>
+
+<dt>acceleration.y</dt>
+<dd><input type="text" value="-" name="y" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-y" /></svg></dd>
+
+<dt>acceleration.z</dt>
+<dd><input type="text" value="-" name="z" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-z" /></svg></dd>
+
+<dt>accelerationIncludingGravity.x</dt>
+<dd><input type="text" value="-" name="xg" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-xg" /></svg></dd>
+
+<dt>accelerationIncludingGravity.y</dt>
+<dd><input type="text" value="-" name="yg" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-yg" /></svg></dd>
+
+<dt>accelerationIncludingGravity.z</dt>
+<dd><input type="text" value="-" name="zg" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-zg" /></svg></dd>
+
+<dt>rotationRate.alpha</dt>
+<dd><input type="text" value="-" name="a" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-a" /></svg></dd>
+
+<dt>rotationRate.beta</dt>
+<dd><input type="text" value="-" name="b" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-b" /></svg></dd>
+
+<dt>rotationRate.gamma</dt>
+<dd><input type="text" value="-" name="g" readonly="readonly" /></dd>
+<dd><svg xmlns="http://www.w3.org/2000/svg" width="300" height="8"><rect x="0" y="0" width="300" height="8" fill="#eee" /><rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-g" /></svg></dd>
+</dl>
+</form>
+<script type="text/javascript">
+
+	window.addEventListener("devicemotion", function(evt){
+
+		// 数値 ------
+		var dev = {};
+		// 加速度
+		dev['x'] = document.sample1.x.value = evt.acceleration.x; // X
+		dev['y'] = document.sample1.y.value = evt.acceleration.y; // Y
+		dev['z'] = document.sample1.z.value = evt.acceleration.z; // Z
+		// 傾き
+		dev['xg'] = document.sample1.xg.value = evt.accelerationIncludingGravity.x; // X
+		dev['yg'] = document.sample1.yg.value = evt.accelerationIncludingGravity.y; // Y
+		dev['zg'] = document.sample1.zg.value = evt.accelerationIncludingGravity.z; // Z
+		// 回転値
+		dev['a'] = document.sample1.a.value = evt.rotationRate.alpha; // Z
+		dev['b'] = document.sample1.b.value = evt.rotationRate.beta;  // X
+		dev['g'] = document.sample1.g.value = evt.rotationRate.gamma; // Y
+
+		// 棒グラフ ------
+		var center = 150;
+		var zoom = 10;
+		for(var key in dev){
+			var barId = 'bar-' + key;
+			if(key == 'a' || key == 'b' || key == 'g'){
+				zoom = 1;
+			}
+			document.getElementById(barId).setAttribute('width', Math.abs(dev[key]) * zoom);
+			if( dev[key] < 0 ){
+				document.getElementById(barId).setAttribute('x', center - (Math.abs(dev[key])*zoom));
+				document.getElementById(barId).setAttribute('fill', '#6cf' );
+			}else{
+				document.getElementById(barId).setAttribute('x', center);
+				document.getElementById(barId).setAttribute('fill', '#f90' );
+			}
+		}
+
+	}, true);
+</script>
+
+<hr />
+
+<ul class="info">
+<li>問合せ先メールアドレス: i-ksnk.jp(-を@に置換え)</li>
+<li>2013年4月7日 作成</li>
+</ul>
+
+<ul class="navi">
+<li><a href="index.html">コシヌケスペース</a></li>
+</ul>
+
+
+</body>
+</html>
