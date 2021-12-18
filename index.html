@@ -80,14 +80,14 @@
             // 棒グラフ ------
             var center = 150;
             var zoom = 10;
-            for (var key in dev) {
+            for (var key in d) {
               document
                 .getElementById(barId)
-                .setAttribute("width", Math.abs(dev[key]) * zoom);
+                .setAttribute("width", Math.abs(d[key]) * zoom);
               if (dev[key] < 0) {
                 document
                   .getElementById(barId)
-                  .setAttribute("x", center - Math.abs(dev[key]) * zoom);
+                  .setAttribute("x", center - Math.abs(d[key]) * zoom);
                 document.getElementById(barId).setAttribute("fill", "#6cf");
               } else {
                 document.getElementById(barId).setAttribute("x", center);
