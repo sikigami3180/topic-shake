@@ -50,10 +50,11 @@
       .permission {
         border: 1px solid #f2481e;
         color: #f2481e;
+        user-select: none;
       }
       .topic { 
         height: 80px;
-        line-height:80px;
+        /*line-height:80px;*/
         font-size: 24px;
         font-family: 'M PLUS 1p', sans-serif;
         margin: auto;
@@ -229,7 +230,7 @@
               }
               update_archive();
               update_list();
-              gtag('event', 'shake', {'value': 123});
+              gtag('event', 'shake', {'value': num});
             } else if (state === "moving") {
               if (power > buf_power) {
                 buf_power = power;
