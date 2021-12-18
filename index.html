@@ -22,7 +22,10 @@
     </button>
 
     <div id="power">
-      aaa
+      ppp
+    </div>
+    <div id="num">
+      nnn
     </div>
 
     <form name="data" class="data">
@@ -64,6 +67,7 @@
         suppression_flag = false;
       }
       setInterval(countUp, 500);*/
+      let state = "ready";
 
       function add_event_listener() {
         window.addEventListener(
@@ -74,8 +78,16 @@
             d["y"] = event.acceleration.y;
             d["z"] = event.acceleration.z;
             const power = d["x"]*d["x"]+d["y"]*d["y"]+d["z"]*d["z"];
-            var res = document.getElementById("power");
+            const res = document.getElementById("power");
             res.innerText = String(power);
+            if(power > 10 && state==="ready"){
+              state = "moving";
+            } else if(power < 10 && state==="moving"){
+              num += 1;
+              state = "ready";
+              const res = document.getElementById("num");
+              res.innerText = String(num);
+            }
 
 
             /*var result1 = document.getElementById("result_acc");
