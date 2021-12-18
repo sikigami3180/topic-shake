@@ -7,19 +7,60 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <style type="text/css">
-      input {border:none;}
-      .data {width:320px; margin:1em auto;}
-      .data dt, .data dd { font-size:.7em; line-height:1.1; margin:0; padding:0;}
-      .data dt { font-weight:700; }
-      .data dd { margin-left:16px; }
+      input {
+        border: none;
+      }
+      .data {
+        width: 320px;
+        margin: 1em auto;
+      }
+      .data dt,
+      .data dd {
+        font-size: 0.7em;
+        line-height: 1.1;
+        margin: 0;
+        padding: 0;
+      }
+      .data dt {
+        font-weight: 700;
+      }
+      .data dd {
+        margin-left: 16px;
+      }
+      .nav_wrapper {
+        display: flex;
+        justify-content: space-around;
+        cursor: pointer;
+      }
+      .nav_wrapper a {
+        width: 20%;
+        text-align: center;
+        transition: 0.5s;
+      }
+      .twitter {
+        border: 1px solid #1ea1f2;
+        color: #1ea1f2;
+      }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
     <h1>話題に困ったら振るやつ</h1>
-    <button onclick="permission_request();">
+    <!--<button onclick="permission_request();">
       加速度センサーへのアクセス許可
-    </button>
+    </button>-->
+    <div class="nav_wrapper" onclick="permission_request();">
+      <a class="twitter">
+        <i class="fa fa-cogs" aria-hidden="true"></i>
+        permission
+        <i class="fa fa-cogs" aria-hidden="true"></i>
+      </a>
+    </div>
 
     <div id="power">
       ppp
@@ -27,11 +68,13 @@
     <div id="num">
       nnn
     </div>
+    <div id="buf_power">
+      nnn
+    </div>
 
     <form name="data" class="data">
       <dl>
         <dt>acceleration.x</dt>
-        <dd><input type="text" value="-" name="x" readonly="readonly" /></dd>
         <dd>
           <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
             <rect x="0" y="0" width="300" height="8" fill="#eee" />
@@ -40,7 +83,6 @@
         </dd>
 
         <dt>acceleration.y</dt>
-        <dd><input type="text" value="-" name="y" readonly="readonly" /></dd>
         <dd>
           <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
             <rect x="0" y="0" width="300" height="8" fill="#eee" />
@@ -49,7 +91,6 @@
         </dd>
 
         <dt>acceleration.z</dt>
-        <dd><input type="text" value="-" name="z" readonly="readonly" /></dd>
         <dd>
           <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
             <rect x="0" y="0" width="300" height="8" fill="#eee" />
@@ -61,6 +102,8 @@
 
     <script type="text/javascript">
       let num = 0;
+      let buf_power = 0;
+
       //let power = 0;
       /*let suppression_flag = false;
       const countUp = () => {
@@ -77,37 +120,29 @@
             d["x"] = event.acceleration.x;
             d["y"] = event.acceleration.y;
             d["z"] = event.acceleration.z;
-            const power = d["x"]*d["x"]+d["y"]*d["y"]+d["z"]*d["z"];
-            const res = document.getElementById("power");
-            res.innerText = String(power);
-            if(power > 10 && state==="ready"){
+            const power = d["x"] * d["x"] + d["y"] * d["y"] + d["z"] * d["z"];
+            
+            if (power > 10 && state === "ready") {
               state = "moving";
-            } else if(power < 10 && state==="moving"){
+              buf_power = 0;
+            } else if (power < 10 && state === "moving") {
               num += 1;
               state = "ready";
               const res = document.getElementById("num");
               res.innerText = String(num);
+            } else if (state === "moving") {
+              if (power > buf_power) {
+                buf_power = power;
+              }
+              const res = document.getElementById("buf_power");
+              res.innerText = String(buf_power);
             }
 
-
-            /*var result1 = document.getElementById("result_acc");
-            result1.innerHTML =
-              "重力加速度<br />" +
-              "X：" +
-              d["x"].toFixed(2) +
-              "(m/s^2)<br />" +
-              "Y：" +
-              d["y"].toFixed(2) +
-              "(m/s^2)<br />" +
-              "Z：" +
-              d["z"].toFixed(2) +
-              "(m/s^2)<br />";*/
-            
             // 棒グラフ ------
             const center = 150;
             const zoom = 10;
             for (const key in d) {
-              const barId = 'bar-' + key;
+              const barId = "bar-" + key;
               document
                 .getElementById(barId)
                 .setAttribute("width", Math.abs(d[key]) * zoom);
@@ -143,8 +178,8 @@
         } else {
           add_event_listener();
         }
+        console.log("aaaaaaa")
       }
-      
     </script>
   </body>
 </html>
