@@ -146,7 +146,6 @@
       archive_n.fill(0);
       archive_r.fill(0);
       archive_ssr.fill(0);
-      
 
       Array.prototype.randomGet = function() {
         var index = Math.floor(Math.random() * this.length)
@@ -193,8 +192,6 @@
             } else if (power < 5 && state === "moving") {
               num += 1;
               state = "ready";
-              const res = document.getElementById("num");
-              res.innerText = String(num);
 
               //抽出
               if (buf_power > 1000) {
@@ -215,6 +212,7 @@
                 archive_n[index] = 1;
               }
               update_archive();
+              update_list();
             } else if (state === "moving") {
               if (power > buf_power) {
                 buf_power = power;
