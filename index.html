@@ -6,6 +6,18 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-84KNSQDNRZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-84KNSQDNRZ');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap" rel="stylesheet">
     <style type="text/css">
       .data {
         width: 320px;
@@ -33,28 +45,30 @@
         width: 40%;
         text-align: center;
         transition: 0.5s;
-        margin-top: 36px;
+        margin-top: 24px;
       }
       .permission {
         border: 1px solid #f2481e;
         color: #f2481e;
       }
-      .topic {  
-        height: 15vh;
-        font-size: 20px;
-        font-family: "serif";
+      .topic { 
+        height: 80px;
+        line-height:80px;
+        font-size: 24px;
+        font-family: 'M PLUS 1p', sans-serif;
         margin: auto;
         text-align: center;
+        color: rgb(16, 111, 148);
       }
       .archive {  
         font-size: 12px;
-        font-family: "serif";
+        font-family: 'M PLUS 1p', sans-serif;
         margin: auto;
         text-align: center;
       }
       .list {  
         font-size: 12px;
-        font-family: "serif";
+        font-family: 'M PLUS 1p', sans-serif;
         height: 40vh;
         overflow: auto;
       }
@@ -65,9 +79,10 @@
       rel="stylesheet"
     />
   </head>
+  <a href="" onclick=""></a>
 
   <body>
-    <h2>話題に困ったら振るやつ</h2>
+    <h3>話題に困ったら振るやつ</h3>
     <div id="topic" class="topic">
       ---
     </div>
@@ -214,6 +229,7 @@
               }
               update_archive();
               update_list();
+              gtag('event', 'shake', {'value': 123});
             } else if (state === "moving") {
               if (power > buf_power) {
                 buf_power = power;
