@@ -84,7 +84,7 @@
               document
                 .getElementById(barId)
                 .setAttribute("width", Math.abs(d[key]) * zoom);
-              if (dev[key] < 0) {
+              if (d[key] < 0) {
                 document
                   .getElementById(barId)
                   .setAttribute("x", center - Math.abs(d[key]) * zoom);
