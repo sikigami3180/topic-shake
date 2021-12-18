@@ -6,50 +6,106 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <style type="text/css">
+      input {border:none;}
+      .data {width:320px; margin:1em auto;}
+      .data dt, .data dd { font-size:.7em; line-height:1.1; margin:0; padding:0;}
+      .data dt { font-weight:700; }
+      .data dd { margin-left:16px; }
+    </style>
   </head>
 
   <body>
+    <h1>話題に困ったら振るやつ</h1>
     <button onclick="permission_request();">
       加速度センサーへのアクセス許可
     </button>
-    話題に困った時に振るやつ
-    <div id="num">aaa</div>
-    <div id="result_acc">bbb</div>
-    <br />
-    <div id="result_gyro">ccc</div>
+
+    <form name="data" class="data">
+      <dl>
+        <dt>acceleration.x</dt>
+        <dd><input type="text" value="-" name="x" readonly="readonly" /></dd>
+        <dd>
+          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
+            <rect x="0" y="0" width="300" height="8" fill="#eee" />
+            <rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-x" />
+          </svg>
+        </dd>
+
+        <dt>acceleration.y</dt>
+        <dd><input type="text" value="-" name="y" readonly="readonly" /></dd>
+        <dd>
+          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
+            <rect x="0" y="0" width="300" height="8" fill="#eee" />
+            <rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-y" />
+          </svg>
+        </dd>
+
+        <dt>acceleration.z</dt>
+        <dd><input type="text" value="-" name="z" readonly="readonly" /></dd>
+        <dd>
+          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="8">
+            <rect x="0" y="0" width="300" height="8" fill="#eee" />
+            <rect x="150" y="0" width="0" height="8" fill="#f90" id="bar-z" />
+          </svg>
+        </dd>
+      </dl>
+    </form>
+
     <script type="text/javascript">
       var num = 10;
       function add_event_listener() {
-        window.addEventListener("devicemotion", function (event) {
-            var x = event.acceleration.x;
-            var y = event.acceleration.y;
-            var z = event.acceleration.z;
+        window.addEventListener(
+          "devicemotion",
+          function (event) {
+            const d = {};
+            d["x"] = event.acceleration.x;
+            d["y"] = event.acceleration.y;
+            d["z"] = event.acceleration.z;
             console.log(x, y, z);
 
             var result1 = document.getElementById("result_acc");
             result1.innerHTML =
               "重力加速度<br />" +
               "X：" +
-              x.toFixed(2) +
+              d["x"].toFixed(2) +
               "(m/s^2)<br />" +
               "Y：" +
-              y.toFixed(2) +
+              d["y"].toFixed(2) +
               "(m/s^2)<br />" +
               "Z：" +
-              z.toFixed(2) +
+              d["z"].toFixed(2) +
               "(m/s^2)<br />";
+            
+            // 棒グラフ ------
+            var center = 150;
+            var zoom = 10;
+            for (var key in dev) {
+              document
+                .getElementById(barId)
+                .setAttribute("width", Math.abs(dev[key]) * zoom);
+              if (dev[key] < 0) {
+                document
+                  .getElementById(barId)
+                  .setAttribute("x", center - Math.abs(dev[key]) * zoom);
+                document.getElementById(barId).setAttribute("fill", "#6cf");
+              } else {
+                document.getElementById(barId).setAttribute("x", center);
+                document.getElementById(barId).setAttribute("fill", "#f90");
+              }
+            }
           },
           true
         );
       }
-      function post_function(result_string) {
+      /*function post_function(result_string) {
         if (result_string === "granted") {
           // ユーザが許可した場合、文字列"granted"が返る
           add_event_listener();
         } else if (result_string === "denied") {
           // ユーザが拒否した場合、文字列"denied"が返る
         }
-      }
+      }*/
       function permission_request() {
         if (
           DeviceOrientationEvent &&
@@ -57,8 +113,7 @@
           typeof DeviceOrientationEvent.requestPermission === "function"
         ) {
           DeviceMotionEvent.requestPermission().then(add_event_listener);
-        }
-        else {
+        } else {
           add_event_listener();
         }
       }
