@@ -7,9 +7,6 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <style type="text/css">
-      input {
-        border: none;
-      }
       .data {
         width: 320px;
         margin: 1em auto;
@@ -54,6 +51,12 @@
         margin: auto;
         text-align: center;
       }
+      .list {  
+        font-size: 12px;
+        font-family: "serif";
+        height: 40vh;
+        overflow: auto;
+      }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link
@@ -64,9 +67,6 @@
 
   <body>
     <h2>話題に困ったら振るやつ</h2>
-    <!--<button onclick="permission_request();">
-      加速度センサーへのアクセス許可
-    </button>-->
     <div id="topic" class="topic">
       ---
     </div>
@@ -80,17 +80,8 @@
         <i class="fa fa-cogs" aria-hidden="true"></i>
       </a>
     </div>
-
     
-    <div id="num">
-      nnn
-    </div>
-    <div id="buf_power">
-      bbb
-    </div>
-
-    
-    <div id="list">
+    <div id="list" class="list">
       lll
     </div>
 
@@ -173,15 +164,17 @@
         const num_r = archive_r.reduce((prev, current) => prev + current, 0);
         const num_ssr = archive_ssr.reduce((prev, current) => prev + current, 0);
         
-        res.innerHTML = `N:${num_n}/${archive_n.length}, R:${num_r}/${archive_r.length}, SSR:${num_ssr}/${archive_ssr.length}`;
+        res.innerHTML = `N:${num_n}/${archive_n.length}, R:${num_r}/${archive_r.length}, SSR:${num_ssr}/${archive_ssr.length}, ${num}回`;
+      }
+      function update_list(){
+        const res = document.getElementById("list");
+        const arr_n = archive_n.map((value, index) => {return value==1?"N:"+topic_n[index]:"???"})
+        const arr_r = archive_r.map((value, index) => {return value==1?"R:"+topic_r[index]:"???"})
+        const arr_ssr = archive_ssr.map((value, index) => {return value==1?"SSR:"+topic_ssr[index]:"???"})
+        
+        res.innerHTML = arr_n.join('<br />') + '<br />' + arr_r.join('<br />') + '<br />' + arr_ssr.join('<br />');
       }
 
-      //let power = 0;
-      /*let suppression_flag = false;
-      const countUp = () => {
-        suppression_flag = false;
-      }
-      setInterval(countUp, 500);*/
       let state = "ready";
 
       function add_event_listener() {
@@ -226,8 +219,6 @@
               if (power > buf_power) {
                 buf_power = power;
               }
-              const res = document.getElementById("buf_power");
-              res.innerText = String(buf_power);
             }
 
             // 棒グラフ ------
@@ -252,14 +243,6 @@
           true
         );
       }
-      /*function post_function(result_string) {
-        if (result_string === "granted") {
-          // ユーザが許可した場合、文字列"granted"が返る
-          add_event_listener();
-        } else if (result_string === "denied") {
-          // ユーザが拒否した場合、文字列"denied"が返る
-        }
-      }*/
       function permission_request() {
         if (
           DeviceOrientationEvent &&
@@ -270,9 +253,9 @@
         } else {
           add_event_listener();
         }
-        console.log("aaaaaaa")
       }
       update_archive();
+      update_list();
       
     </script>
   </body>
