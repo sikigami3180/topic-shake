@@ -21,6 +21,10 @@
       加速度センサーへのアクセス許可
     </button>
 
+    <div id="power">
+      aaa
+    </div>
+
     <form name="data" class="data">
       <dl>
         <dt>acceleration.x</dt>
@@ -53,7 +57,14 @@
     </form>
 
     <script type="text/javascript">
-      var num = 10;
+      let num = 0;
+      //let power = 0;
+      /*let suppression_flag = false;
+      const countUp = () => {
+        suppression_flag = false;
+      }
+      setInterval(countUp, 500);*/
+
       function add_event_listener() {
         window.addEventListener(
           "devicemotion",
@@ -62,6 +73,10 @@
             d["x"] = event.acceleration.x;
             d["y"] = event.acceleration.y;
             d["z"] = event.acceleration.z;
+            const power = d["x"]*d["x"]+d["y"]*d["y"]+d["z"]*d["z"];
+            var res = document.getElementById("power");
+            res.innerText = String(power);
+
 
             /*var result1 = document.getElementById("result_acc");
             result1.innerHTML =
@@ -117,8 +132,7 @@
           add_event_listener();
         }
       }
-      var res = document.getElementById("num");
-      res.innerText = String(num);
+      
     </script>
   </body>
 </html>
