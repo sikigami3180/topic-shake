@@ -62,7 +62,6 @@
             d["x"] = event.acceleration.x;
             d["y"] = event.acceleration.y;
             d["z"] = event.acceleration.z;
-            console.log(x, y, z);
 
             /*var result1 = document.getElementById("result_acc");
             result1.innerHTML =
@@ -78,9 +77,10 @@
               "(m/s^2)<br />";*/
             
             // 棒グラフ ------
-            var center = 150;
-            var zoom = 10;
-            for (var key in d) {
+            const center = 150;
+            const zoom = 10;
+            for (const key in d) {
+              const barId = 'bar-' + key;
               document
                 .getElementById(barId)
                 .setAttribute("width", Math.abs(d[key]) * zoom);
